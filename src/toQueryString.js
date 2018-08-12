@@ -1,4 +1,6 @@
 export function stringify(branch) {
+  if (!branch || Object.keys(branch).length === 0) return '';
+
   const collection = [];
   traverseValue.call({
     collection

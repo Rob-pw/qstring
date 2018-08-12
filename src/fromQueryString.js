@@ -1,7 +1,8 @@
 export function parse(queryString) {
-  let parts;
-  if (Array.isArray(queryString)) parts = queryString;
-  else {
+  if (!queryString) return {};
+
+  let parts = Array.isArray(queryString) && queryString;
+  if (parts === false) {
     const sansQuestionMark = queryString[0] === '?' ? queryString.substring(1) : queryString;
     parts = sansQuestionMark.split('&');
   }

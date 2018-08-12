@@ -65,6 +65,15 @@ test('Can convert process.args into an object or queryString', t => {
   t.end();
 });
 
+test('Handles empty inputs gracefully', t => {
+  const parsed = [parse(''), parse(), parse(undefined), parse(null)];
+  t.equal(parsed.filter(p => Object.keys(p).length === 0).length, parsed.length);
+
+  const stringified = [stringify({}), stringify(), stringify(undefined), stringify(null)];
+  t.equal(stringified.filter(s => s === '').length, stringified.length);
+  t.end();
+});
+
 test('Takes less than 1ms per call given the example object', t => {
   const start = new Date();
   for (var i = 0; i < 200; i += 1) {
