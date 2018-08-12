@@ -1,17 +1,16 @@
-function individualQuery(key, value) { return ; }
-
 function traverseValue(value) {
   const { parentKey, collection } = this || {};
 
   const isObject = value && typeof value === 'object';
   const isArray = Array.isArray(value);
 
-  if (!isObject && !isArray) return collection.push(`${parentKey}=${value}`);
+  if (!isObject && !isArray) return collection.push(`${parentKey}=${encodeURIComponent(value)}`);
 
   const entries = Object.entries(value);
   for (const [ key, value ] of entries) {
-    const currentKey = isArray ? `${parentKey}[${key}]`
-      : parentKey ? `${parentKey}.${key}` : key;
+    const encodedKey = encodeURIComponent(key);
+    const currentKey = isArray ? `${parentKey}[${encodedKey}]`
+      : parentKey ? `${parentKey}.${encodedKey}` : encodedKey;
 
     traverseValue.call({
       parentKey: currentKey,

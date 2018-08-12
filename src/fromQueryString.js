@@ -1,17 +1,18 @@
+function arrayContents(string) {
+  const [openingIndex, closingIndex] = [string.indexOf('['), string.indexOf(']')];
+  if (openingIndex === -1 || closingIndex === -1) return { isArray: false };
+
+  const inner = string.substring(openingIndex + 1, closingIndex);
+  return { inner, openingIndex, closingIndex, isArray: true, hasBrackets: true };
+}
+
 function traverse(parts) {
   const { value, parentScope } = this;
   const currentPart = parts.shift();
 
-  const openingBracketIndex = currentPart.indexOf('[');
-  const closingBracketIndex = currentPart.indexOf(']');
-  const hasBrackets = openingBracketIndex > 0 && closingBracketIndex === currentPart.length - 1;
+  const { inner: index, openingIndex, hasBrackets } = arrayContents(currentPart);
 
-  let key = currentPart;
-  let index;
-  if (hasBrackets) {
-    key = currentPart.substring(0, openingBracketIndex);
-    index = currentPart.substring(openingBracketIndex + 1, closingBracketIndex);
-  }
+  let key = decodeURIComponent(hasBrackets ? currentPart.substring(0, openingIndex) : currentPart);
 
   const moreToCome = !!parts.length;
   const currentValue = parentScope[key];
@@ -54,15 +55,14 @@ export function parse(queryString) {
   }
 
   const queryPaths = parts
-    .map(q => q.split('=')
-      .map(p => p.split('.'))
-    );
+    .map(q => q.split('='))
+    .map(([path, value]) => [path.split('.'), value]);
 
   const result = {};
   queryPaths.forEach(([ parts, value ]) =>
     traverse.call({
       parentScope: result,
-      value: value ? parseIndividual(value[0]) : true
+      value: value ? parseIndividual(value) : true
     }, parts)
   );
 
@@ -73,5 +73,8 @@ function parseIndividual(value) {
   const numberValue = parseFloat(value);
   if (!isNaN(numberValue)) return numberValue;
 
-  return value;
+  const { isArray, inner, openingIndex, closingIndex } = arrayContents(value);
+  if (isArray) return inner.split(',').map(parseIndividual);
+
+  return decodeURIComponent(value);
 }
