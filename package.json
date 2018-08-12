@@ -1,0 +1,29 @@
+{
+  "name": "qstring",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "prepublish": "npm run test",
+    "test": "tape -r esm tests/**/*.spec.js"
+  },
+  "files": [
+    "src/**/*.js",
+    "dist/**/*.js",
+    "index.js",
+    "README.md"
+  ],
+  "author": "rob-pw",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "esm": "^3.0.74",
+    "rollup": "^0.64.1",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-uglify": "^4.0.0",
+    "tape": "^4.9.1"
+  }
+}
