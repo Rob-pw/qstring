@@ -35,6 +35,7 @@ const qs = `
   &level1.level2.level3Args=2
   &level1.level2.level3Args=c
   &level1.level2.level3[].level4=foo
+  &level1.level2.level3[2].level4=bar
 `.replace(/[\n\t ]/g, ''); //strip all newlines and tabs
 ```
 
