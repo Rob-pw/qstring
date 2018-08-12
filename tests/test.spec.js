@@ -64,3 +64,15 @@ test('Can convert process.args into an object or queryString', t => {
   });
   t.end();
 });
+
+test('Takes less than 1ms per call given the example object', t => {
+  const start = new Date();
+  for (var i = 0; i < 200; i += 1) {
+    const queryString = stringify(object);
+    const parsed = parse(queryString);
+  }
+  const end = new Date();
+  const runtime = end - start;
+  t.ok(runtime < 100);
+  t.end();
+})
