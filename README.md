@@ -9,6 +9,7 @@ Features:
   - `parseProcessArgs(process.argv);` -> object
   - 94 SLOC (2.6KiB built vs 1.3KiB GZipped)
   - Dependency free.
+  - Performant, less than 1ms for below object on a Dell D430 (2 cores, 1.2Gz, 2GB of RAM)
 
 ```javascript
 const object = {
