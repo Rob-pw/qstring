@@ -1,17 +1,18 @@
 # qstring
 
-Super simple lightweight query string parser and stringifier + free parsing of process.argv. 95 SLOC.
+Comprehensive lightweight query string parser and stringifier + free parsing of process.argv.
 
+Features:
   - `import { stringify, parse, parseProcessArgs } from 'qstring'` (or `qstring/dist/` for es2015)
   - `stringify(object);` -> queryString
   - `parse(queryString);` -> object
   - `parseProcessArgs(process.argv);` -> object
-
-Todo (eta: 5pm GMT 12/08/18):
-  - '?' default query param support.
+  - 94 SLOC (2.6KiB built vs 1.3KiB GZipped)
+  - Dependency free.
 
 ```javascript
 const object = {
+  '': 'defaultParamValue',
   example: [123.5, 252.23, 3, 'gaben'],
   level1Name: 'name',
   level1: {
@@ -29,8 +30,9 @@ const object = {
 };
 
 //for readability purposes, using a multiline
-const qs = `
-  ?example=[123.5,252.23,3,gaben]
+const queryString = `
+  ?defaultParamValue
+  &example=[123.5,252.23,3,gaben]
   &level1Name=name
   &level1.title=level1
   &level1.%40%24%5Estrange~)*=%40%3A~)

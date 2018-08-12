@@ -8,7 +8,9 @@ export function parse(queryString) {
 
   const queryPaths = parts
     .map(q => q.split('='))
-    .map(([path, value]) => [path.split('.'), value]);
+    .map(([path, value], index) =>
+      index === 0 && !value ?
+        [[''], path] : [path.split('.'), value]);
 
   const result = {};
   queryPaths.forEach(([ parts, value ]) =>
@@ -35,25 +37,18 @@ function traverse(parts) {
   const wrapParentValue = isArray && !hasBrackets && !Array.isArray(currentValue);
 
   const valueToSet = wrapParentValue ? [currentValue]
-    : currentValue || (
-        hasBrackets ? []
-        : moreToCome ? {}
-          : value
-      );
+    : currentValue || (isArray && []) || (moreToCome && {}) || value;
 
   parentScope[key] = valueToSet;
 
   let childScope;
   if (isArray) {
-    let arrayValue = value;
-    if (moreToCome) {
-      childScope = {};
-      arrayValue = childScope;
-    }
+    let arrayValue = moreToCome ? (childScope = {}) : value;
 
     if (index) valueToSet[index] = arrayValue;
     else valueToSet.push(arrayValue);
-  } else if (moreToCome) childScope = valueToSet;
+  }
+  else if (moreToCome) childScope = valueToSet;
 
   if (childScope) traverse.call({
     parentScope: childScope,

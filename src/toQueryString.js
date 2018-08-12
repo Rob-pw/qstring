@@ -14,7 +14,11 @@ function traverseValue(value) {
   const isObject = value && typeof value === 'object';
   const isArray = Array.isArray(value);
 
-  if (!isObject && !isArray) return collection.push(`${parentKey}=${encodeURIComponent(value)}`);
+  if (!isObject && !isArray) {
+    const encodedValue = encodeURIComponent(value);
+    const isDefaultParam = parentKey === '';
+    return collection.push(isDefaultParam ? value : `${parentKey}=${encodedValue}`);
+  }
 
   const entries = Object.entries(value);
   for (const [ key, value ] of entries) {
