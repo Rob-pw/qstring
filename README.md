@@ -1,6 +1,6 @@
 # qstring
 
-Super simple lightweight query string parser and stringifier + free parsing of process.argv. 89 SLOC.
+Super simple lightweight query string parser and stringifier + free parsing of process.argv. 95 SLOC.
 
   - `import { stringify, parse, parseProcessArgs } from 'qstring'` (or `qstring/dist/` for es2015)
   - `stringify(object);` -> queryString
