@@ -43,7 +43,7 @@ test('Can convert process.args into an object or queryString', t => {
   const queryObject = parseProcessArgs(process.argv);
   const queryString = stringify(queryObject);
 
-  t.equal(queryString, '?param=1&flag=true&nested.query[0].params=5&nested.query[2].params=6');
+  t.equal(queryString, '?param=1&flag=true&nested.query[0].params=5&nested.query[2].params=6&sequence=H-Arg-PEPTIDE-OH');
   t.deepEqual(queryObject, {
     "param":1,
     "flag":true,
@@ -53,7 +53,8 @@ test('Can convert process.args into an object or queryString', t => {
       }, , {
         "params":6
       }]
-    }
+    },
+    sequence: 'H-Arg-PEPTIDE-OH'
   });
   t.end();
 });

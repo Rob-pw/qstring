@@ -1,12 +1,12 @@
 {
   "name": "qstring",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "rollup -c",
     "prepublish": "npm run test",
-    "test": "tape -r esm tests/**/*.spec.js --param=1 --flag --nested.query[].params=5 --nested.query[2].params=6"
+    "test": "tape -r esm tests/**/*.spec.js --param=1 --flag --nested.query[].params=5 --nested.query[2].params=6 --sequence=H-Arg-PEPTIDE-OH"
   },
   "files": [
     "src/**/*.js",
