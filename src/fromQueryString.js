@@ -1,9 +1,24 @@
-function arrayContents(string) {
-  const [openingIndex, closingIndex] = [string.indexOf('['), string.indexOf(']')];
-  if (openingIndex === -1 || closingIndex === -1) return { isArray: false };
+export function parse(queryString) {
+  let parts;
+  if (Array.isArray(queryString)) parts = queryString;
+  else {
+    const sansQuestionMark = queryString[0] === '?' ? queryString.substring(1) : queryString;
+    parts = sansQuestionMark.split('&');
+  }
 
-  const inner = string.substring(openingIndex + 1, closingIndex);
-  return { inner, openingIndex, closingIndex, isArray: true, hasBrackets: true };
+  const queryPaths = parts
+    .map(q => q.split('='))
+    .map(([path, value]) => [path.split('.'), value]);
+
+  const result = {};
+  queryPaths.forEach(([ parts, value ]) =>
+    traverse.call({
+      parentScope: result,
+      value: value ? parseIndividual(value) : true
+    }, parts)
+  );
+
+  return result;
 }
 
 function traverse(parts) {
@@ -46,27 +61,12 @@ function traverse(parts) {
   }, parts);
 }
 
-export function parse(queryString) {
-  let parts;
-  if (Array.isArray(queryString)) parts = queryString;
-  else {
-    const sansQuestionMark = queryString[0] === '?' ? queryString.substring(1) : queryString;
-    parts = sansQuestionMark.split('&');
-  }
+function arrayContents(string) {
+  const [openingIndex, closingIndex] = [string.indexOf('['), string.indexOf(']')];
+  if (openingIndex === -1 || closingIndex === -1) return { isArray: false };
 
-  const queryPaths = parts
-    .map(q => q.split('='))
-    .map(([path, value]) => [path.split('.'), value]);
-
-  const result = {};
-  queryPaths.forEach(([ parts, value ]) =>
-    traverse.call({
-      parentScope: result,
-      value: value ? parseIndividual(value) : true
-    }, parts)
-  );
-
-  return result;
+  const inner = string.substring(openingIndex + 1, closingIndex);
+  return { inner, openingIndex, closingIndex, isArray: true, hasBrackets: true };
 }
 
 function parseIndividual(value) {

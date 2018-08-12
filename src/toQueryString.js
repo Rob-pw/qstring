@@ -1,3 +1,13 @@
+export function stringify(branch) {
+  const collection = [];
+  traverseValue.call({
+    collection
+  }, branch);
+
+  const queryString = collection.join('&');
+  return `?${queryString}`;
+}
+
 function traverseValue(value) {
   const { parentKey, collection } = this || {};
 
@@ -17,14 +27,4 @@ function traverseValue(value) {
       collection
     }, value);
   }
-}
-
-export function stringify(branch) {
-  const collection = [];
-  traverseValue.call({
-    collection
-  }, branch);
-
-  const queryString = collection.join('&');
-  return `?${queryString}`;
 }
