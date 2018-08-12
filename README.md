@@ -7,6 +7,9 @@ Super simple lightweight query string parser and stringifier + free parsing of p
   - `parse(queryString);` -> object
   - `parseProcessArgs(process.argv);` -> object
 
+Todo (eta: 5pm GMT 12/08/18):
+  - '?' default query param support.
+
 ```javascript
 const object = {
   example: [123.5, 252.23, 3, 'gaben'],

@@ -2,6 +2,7 @@ import test from 'tape';
 import { parse, stringify, parseProcessArgs } from '../';
 
 const object = {
+  '?': 'defaultParam',
   example: [123.5, 252.23, 3, 'gaben'],
   level1Name: 'name',
   level1: {
@@ -19,7 +20,8 @@ const object = {
 };
 
 const qs = `
-  ?example=[123.5,252.23,3,gaben]
+  ?defaultParam
+  &example=[123.5,252.23,3,gaben]
   &level1Name=name
   &level1.title=level1
   &level1.%40%24%5Estrange~)*=%40%3A~)
@@ -34,7 +36,7 @@ const qs = `
 
 test('Can convert an object into a queryString', t => {
   const queryString = stringify(object);
-  t.equal(queryString, '?example[0]=123.5&example[1]=252.23&example[2]=3&example[3]=gaben&level1Name=name&level1.title=level1&level1.%40%24%5Estrange~)*=%40%3A~)&level1.level2.level3Args[0]=1&level1.level2.level3Args[1]=2&level1.level2.level3Args[2]=c&level1.level2.level3[0].level4=foo&level1.level2.level3[2].level4=bar');
+  t.equal(queryString, '?defaultParam&example[0]=123.5&example[1]=252.23&example[2]=3&example[3]=gaben&level1Name=name&level1.title=level1&level1.%40%24%5Estrange~)*=%40%3A~)&level1.level2.level3Args[0]=1&level1.level2.level3Args[1]=2&level1.level2.level3Args[2]=c&level1.level2.level3[0].level4=foo&level1.level2.level3[2].level4=bar');
   t.end();
 })
 
