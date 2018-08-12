@@ -37,9 +37,7 @@ function traverse(parts) {
 
     if (index) valueToSet[index] = arrayValue;
     else valueToSet.push(arrayValue);
-  } else if (moreToCome) {
-    childScope = valueToSet;
-  }
+  } else if (moreToCome) childScope = valueToSet;
 
   if (childScope) traverse.call({
     parentScope: childScope,
@@ -48,11 +46,20 @@ function traverse(parts) {
 }
 
 export function parse(queryString) {
-  const sansQuestion = queryString.substring(1);
-  const parts = sansQuestion.split('&').map(q => q.split('=').map(p => p.split('.')));
+  let parts;
+  if (Array.isArray(queryString)) parts = queryString;
+  else {
+    const sansQuestionMark = queryString[0] === '?' ? queryString.substring(1) : queryString;
+    parts = sansQuestionMark.split('&');
+  }
+
+  const queryPaths = parts
+    .map(q => q.split('=')
+      .map(p => p.split('.'))
+    );
 
   const result = {};
-  parts.forEach(([ parts, value ]) =>
+  queryPaths.forEach(([ parts, value ]) =>
     traverse.call({
       parentScope: result,
       value: value ? parseIndividual(value[0]) : true

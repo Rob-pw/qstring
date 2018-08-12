@@ -1,10 +1,11 @@
 # qstring
 
-Super simple lightweight query string parser and stringifier. 89 SLOC.
+Super simple lightweight query string parser and stringifier + free parsing of process.argv. 89 SLOC.
 
-  - `import * as Query from 'qstring'` (or `qstring/dist/` for es2015)
-  - `Query.stringify(object);` -> query string
-  - `Query.parse(string);` -> object
+  - `import { stringify, parse, parseProcessArgs } from 'qstring'` (or `qstring/dist/` for es2015)
+  - `stringify(object);` -> queryString
+  - `parse(queryString);` -> object
+  - `parseProcessArgs(process.argv);` -> object
 
 ```javascript
 const object = {
@@ -15,7 +16,7 @@ const object = {
       level3Args: [1, 2, 'c'],
       level3: [{
         level4: 'foo'
-      }, {
+      }, , {
         level4: 'bar'
       }]
     }
@@ -34,4 +35,4 @@ const qs = `
 ```
 
 Thanks, and have fun.
-`dev@rob.pw`, I sometimes take project requests/commissions.
+You can email:`dev@rob.pw`, I sometimes take project requests/commissions.
