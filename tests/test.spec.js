@@ -21,7 +21,7 @@ const object = {
 
 const qs = `
   ?defaultParam
-  &example=[123.5,252.23,3,gaben]
+  &example=%5B123.5,252.23,3,gaben%5D
   &level1Name=name
   &level1.title=level1
   &level1.%40%24%5Estrange~)*=%40%3A~)

@@ -69,8 +69,10 @@ function parseIndividual(value) {
   const numberValue = parseFloat(value);
   if (!isNaN(numberValue)) return numberValue;
 
-  const { isArray, inner, openingIndex, closingIndex } = arrayContents(value);
+  const decoded = decodeURIComponent(value);
+
+  const { isArray, inner, openingIndex, closingIndex } = arrayContents(decoded);
   if (isArray) return inner.split(',').map(parseIndividual);
 
-  return decodeURIComponent(value);
+  return decoded;
 }
