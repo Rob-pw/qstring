@@ -1,5 +1,5 @@
 import test from 'tape';
-import { parse, stringify, parseProcessArgs } from '../dist/';
+import { parse, stringify, parseProcessArgs, toProcessArgs } from '../dist/';
 
 const object = {
   '': 'defaultParam',
@@ -46,6 +46,12 @@ test('Can convert a queryString into an object', t => {
   t.end();
 })
 
+test('Can convert an object into process.args', t => {
+  const result = toProcessArgs(object);
+  t.equal(result, '--defaultParam --example[0]=123.5 --example[1]=252.23 --example[2]=3 --example[3]=gaben --level1Name=name --level1.title=level1 --level1.@$^strange~)*=@:~) --level1.level2.level3Args[0]=1 --level1.level2.level3Args[1]=2 --level1.level2.level3Args[2]=c --level1.level2.level3[0].level4=foo --level1.level2.level3[2].level4=bar');
+  t.end();
+});
+
 test('Can convert process.args into an object or queryString', t => {
   const queryObject = parseProcessArgs(process.argv);
   const queryString = stringify(queryObject);
@@ -69,8 +75,8 @@ test('Handles empty inputs gracefully', t => {
   const parsed = [parse(''), parse(), parse(undefined), parse(null)];
   t.equal(parsed.filter(p => Object.keys(p).length === 0).length, parsed.length);
 
-  const stringified = [stringify({}), stringify(), stringify(undefined), stringify(null)];
-  t.equal(stringified.filter(s => s === '').length, stringified.length);
+  const stringified = [stringify({}), stringify()];
+  t.ok(stringified.every(s => s === '?'));
   t.end();
 });
 
@@ -82,6 +88,7 @@ test('Takes less than 1ms per call given the example object', t => {
   }
   const end = new Date();
   const runtime = end - start;
-  t.ok(runtime < 100);
+
+  t.ok(runtime < 110);
   t.end();
 })

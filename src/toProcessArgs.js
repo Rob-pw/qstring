@@ -1,15 +1,12 @@
 import { getRawArgParts } from './stringify';
 import { getArgumentParts } from './getArgumentParts';
 
-export function stringify(object) {
-  const { prefix = '?', encode = true } = this || {};
-  
+export function toProcessArgs(object) {
   const rawArgParts = getRawArgParts(object);
   const argumentParts = getArgumentParts.call({
-    encode
+    encode: false
   }, rawArgParts);
 
-  const queryString = argumentParts.join('&');
-
-  return (prefix ? prefix : '') + queryString;
+  const joinedArguments = argumentParts.join(' --');
+  return `--${joinedArguments}`;
 }
