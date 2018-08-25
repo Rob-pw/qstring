@@ -3,12 +3,12 @@
 Comprehensive lightweight query string parser and stringifier + free parsing/output of process.argv.
 
 Features:
-  - `import { stringify, parse, parseProcessArgs } from 'qstring'` (or `qstring/dist/` for es2015)
+  - `import { stringify, parse, parseProcessArgs, toProcessArgs } from 'qstring'` (or `qstring/dist/` for es2015)
   - `stringify(object);` -> string
   - `parse(queryString);` -> object
   - `parseProcessArgs(process.argv);` -> object
   - `toProcessArgs(object)` -> string
-  - 164 SLOC (3.5KiB built vs 1.5KiB GZipped)
+  - 164 SLOC (3.5KiB built vs 1.5KiB GZipped) (Much smaller if importing specific functions)
   - Dependency free.
   - Performant, less than 1ms for below object on a Dell D430 (2 cores, 1.2Gz, 2GB of RAM)
 
