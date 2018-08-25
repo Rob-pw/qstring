@@ -1,14 +1,3 @@
-function assemblePath(path, { isArray, key }) {
-  const keyToSet = this.encodeComponent(key);
-
-  if (!path) return keyToSet;
-
-  const getterPath = isArray ? 
-    `[${keyToSet}]` : `.${keyToSet}`;
-
-  return path + getterPath;
-}
-
 export function getArgumentParts(rawArgParts) {
   const { 
     encode
@@ -37,4 +26,15 @@ export function getArgumentParts(rawArgParts) {
   }
 
   return argumentParts;
+}
+
+function assemblePath(path, { isArray, key }) {
+  const keyToSet = this.encodeComponent(key);
+
+  if (!path) return keyToSet;
+
+  const getterPath = isArray ? 
+    `[${keyToSet}]` : `.${keyToSet}`;
+
+  return path + getterPath;
 }
